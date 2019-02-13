@@ -5,14 +5,14 @@
 #ifndef AVR_LIB_DIGITALOUTPUTPIN_HPP
 #define AVR_LIB_DIGITALOUTPUTPIN_HPP
 
-#include <cstdint>
+#include <stdint.h>
 
 
 class DigitalOutputPin
 {
 public:
 
-    DigitalOutputPin (uint8_t& port, uint8_t& bit);
+    DigitalOutputPin (volatile uint8_t* port, uint8_t bit);
 
     void Enable ();
 
@@ -27,7 +27,7 @@ public:
 
 private:
 
-    uint8_t& m_Port;
+    volatile uint8_t* m_Port;
 
     uint8_t m_Mask;
 
