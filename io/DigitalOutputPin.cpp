@@ -2,7 +2,7 @@
 // Created by Brendan Berg on 12.02.19.
 //
 
-#include "include/mcu/io/DigitalOutputPin.hpp"
+#include <mcu/io/DigitalOutputPin.hpp>
 
 
 DigitalOutputPin::DigitalOutputPin (volatile uint8_t* port, uint8_t bit)

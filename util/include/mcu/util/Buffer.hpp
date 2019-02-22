@@ -13,29 +13,34 @@ class Buffer
 {
 public:
 
-    bool Push (uint8_t pushContent)
+    Buffer ()
+        : m_Head(0), m_Tail(0)
+    { }
+
+    bool Push (uint8_t data)
     {
         if (m_Head == m_Tail - 1)
         {
             return false;
         }
 
-        m_Stack[m_Head] = pushContent;
+        m_Stack[m_Head] = data;
         ++m_Head;
         m_Head %= N;
 
         return true;
-    };
+    }
 
     void Pop ()
     {
-        if (IsEmpty()){
+        if (IsEmpty())
+        {
             return;
         }
 
         ++m_Tail;
         m_Tail %= N;
-    };
+    }
 
     uint8_t Read ()
     {
@@ -50,11 +55,11 @@ public:
 
 private:
 
-    uint8_t m_Stack[N];
-
-    int m_Tail = 0;
+    uint8_t m_Stack[N] = {0};
 
     int m_Head = 0;
+
+    int m_Tail = 0;
 
 
 };
