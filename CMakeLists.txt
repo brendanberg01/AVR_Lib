@@ -15,6 +15,7 @@ if (NOT HAS_PARENT)
     endif()
 endif()
 
-add_subdirectory(io)
 add_subdirectory(util)
+add_subdirectory(io)
 add_subdirectory(usart)
+add_subdirectory(timer)

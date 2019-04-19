@@ -23,35 +23,26 @@ struct UARTProtocolConfig
     uint8_t characterSize : 3;
 
     static constexpr uint8_t characterSize5 = 0x0;
-
     static constexpr uint8_t characterSize6 = 0x1;
-
     static constexpr uint8_t characterSize7 = 0x2;
-
     static constexpr uint8_t characterSize8 = 0x3;
-
     static constexpr uint8_t characterSize9 = 0x7;
 
     uint8_t parityBit : 2;
 
     static constexpr uint8_t parityBitDisabled = 0x0;
-
     static constexpr uint8_t parityBitEven     = 0x2;
-
     static constexpr uint8_t parityBitOdd      = 0x3;
 
     uint8_t stopBits : 1;
 
     static constexpr uint8_t stopBits1 = 0x0;
-
     static constexpr uint8_t stopBits2 = 0x1;
 
     // double speed operation
 
     uint8_t doubleSpeedOp : 1;
-
     static constexpr uint8_t doubleSpeedOpEnabled  = 0x0;
-
     static constexpr uint8_t doubleSpeedOpDisabled = 0x1;
 
 
