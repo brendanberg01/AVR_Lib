@@ -14,22 +14,20 @@
 #include "UART.hpp"
 
 
-#ifdef UDR0
+#if defined(__AVR_ATmega328P__)
+#define UART_NUM 1
+extern "C" void USART_RX_vect(void) __attribute__ ((signal));
+extern "C" void USART_TX_vect(void) __attribute__ ((signal));
+#endif
+
+#if defined(__AVR__ATmega1280__) || defined(__AVR_ATmega2560__)
+#define UART_NUM 4
 extern "C" void USART0_RX_vect(void) __attribute__ ((signal));
 extern "C" void USART0_TX_vect(void) __attribute__ ((signal));
-#endif
-
-#ifdef UDR1
 extern "C" void USART1_RX_vect(void) __attribute__ ((signal));
 extern "C" void USART1_TX_vect(void) __attribute__ ((signal));
-#endif
-
-#ifdef UDR2
 extern "C" void USART2_RX_vect(void) __attribute__ ((signal));
 extern "C" void USART2_TX_vect(void) __attribute__ ((signal));
-#endif
-
-#ifdef UDR3
 extern "C" void USART3_RX_vect(void) __attribute__ ((signal));
 extern "C" void USART3_TX_vect(void) __attribute__ ((signal));
 #endif
@@ -61,31 +59,27 @@ private:
 
     bool m_OngoingTransmission;
 
-    static UARTConnection* instancePtr[UART_NUM];
-
     void StartTransmission ();
 
     void ReceiveCompleteInterruptServiceRoutine ();
 
     void TransmitCompleteInterruptServiceRoutine ();
 
+    static UARTConnection* instancePtr[UART_NUM];
 
-#ifdef UDR0
+
+#if defined(__AVR_ATmega328P__)
+    friend void USART_RX_vect();
+    friend void USART_TX_vect();
+#endif
+
+#if defined(__AVR__ATmega1280__) || defined(__AVR_ATmega2560__)
     friend void USART0_RX_vect();
     friend void USART0_TX_vect();
-#endif
-
-#ifdef UDR1
     friend void USART1_RX_vect();
     friend void USART1_TX_vect();
-#endif
-
-#ifdef UDR2
     friend void USART2_RX_vect();
     friend void USART2_TX_vect();
-#endif
-
-#ifdef UDR3
     friend void USART3_RX_vect();
     friend void USART3_TX_vect();
 #endif

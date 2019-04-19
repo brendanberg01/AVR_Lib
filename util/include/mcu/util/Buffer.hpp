@@ -19,7 +19,7 @@ public:
 
     bool Push (uint8_t data)
     {
-        if (m_Head == m_Tail - 1)
+        if ((m_Head + 1) % N == m_Tail)
         {
             return false;
         }

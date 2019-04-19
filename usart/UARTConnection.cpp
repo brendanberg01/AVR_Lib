@@ -95,46 +95,28 @@ void UARTConnection::TransmitCompleteInterruptServiceRoutine ()
 }
 
 
-#ifdef UDR0
-ISR(USART0_RX_vect)
-{
-    UARTConnection::instancePtr[0]->ReceiveCompleteInterruptServiceRoutine();
+#define RCISR(vect, i) ISR (vect)\
+{\
+    UARTConnection::instancePtr[0]->ReceiveCompleteInterruptServiceRoutine();\
 }
-ISR(USART0_TX_vect)
-{
-    UARTConnection::instancePtr[0]->TransmitCompleteInterruptServiceRoutine();
+
+#define TCISR(vect, i) ISR (vect)\
+{\
+    UARTConnection::instancePtr[0]->TransmitCompleteInterruptServiceRoutine();\
 }
+
+#if defined(__AVR_ATmega328P__)
+RCISR(USART_RX_vect, 0)
+TCISR(USART_TX_vect, 0)
 #endif
 
-#ifdef UDR1
-ISR(USART1_RX_vect)
-{
-    UARTConnection::instancePtr[1]->ReceiveCompleteInterruptServiceRoutine();
-}
-ISR(USART1_TX_vect)
-{
-    UARTConnection::instancePtr[1]->TransmitCompleteInterruptServiceRoutine();
-}
-#endif
-
-#ifdef UDR2
-ISR(USART2_RX_vect)
-{
-    UARTConnection::instancePtr[2]->ReceiveCompleteInterruptServiceRoutine();
-}
-ISR(USART2_TX_vect)
-{
-    UARTConnection::instancePtr[2]->TransmitCompleteInterruptServiceRoutine();
-}
-#endif
-
-#ifdef UDR3
-ISR(USART3_RX_vect)
-{
-    UARTConnection::instancePtr[3]->ReceiveCompleteInterruptServiceRoutine();
-}
-ISR(USART3_TX_vect)
-{
-    UARTConnection::instancePtr[3]->TransmitCompleteInterruptServiceRoutine();
-}
+#if defined(__AVR__ATmega1280__) || defined(__AVR_ATmega2560__)
+RCISR(USART0_RX_vect, 0)
+TCISR(USART0_TX_vect, 0)
+RCISR(USART1_RX_vect, 1)
+TCISR(USART1_TX_vect, 1)
+RCISR(USART2_RX_vect, 2)
+TCISR(USART2_TX_vect, 2)
+RCISR(USART3_RX_vect, 3)
+TCISR(USART3_TX_vect, 3)
 #endif

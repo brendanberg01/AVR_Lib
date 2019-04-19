@@ -8,8 +8,6 @@
 #include <stdint.h>
 #include <avr/io.h>
 
-#define UART_NUM 0
-
 
 struct UARTProtocolConfig
 {
@@ -80,11 +78,9 @@ struct UARTRegisterConfig
 
     explicit UARTRegisterConfig (uint8_t usartID)
     {
+#if defined(__AVR_ATmega328P__)
         switch (usartID)
         {
-#ifdef UDR0
-#undef UART_NUM
-#define UART_NUM 1
             default:
             case 0:
                 udr = &UDR0;
@@ -94,10 +90,21 @@ struct UARTRegisterConfig
                 ubrrh = &UBRR0H;
                 ubrrl = &UBRR0L;
                 break;
+        }
 #endif
-#ifdef UDR1
-#undef UART_NUM
-#define UART_NUM 2
+
+#if defined(__AVR__ATmega1280__) || defined(__AVR_ATmega2560__)
+        switch (usartID)
+        {
+            default:
+            case 0:
+                udr = &UDR0;
+                ucsra = &UCSR0A;
+                ucsrb = &UCSR0B;
+                ucsrc = &UCSR0C;
+                ubrrh = &UBRR0H;
+                ubrrl = &UBRR0L;
+                break;
             case 1:
                 udr = &UDR1;
                 ucsra = &UCSR1A;
@@ -106,10 +113,6 @@ struct UARTRegisterConfig
                 ubrrh = &UBRR1H;
                 ubrrl = &UBRR1L;
                 break;
-#endif
-#ifdef UDR2
-#undef UART_NUM
-#define UART_NUM 3
             case 2:
                 udr = &UDR2;
                 ucsra = &UCSR2A;
@@ -118,10 +121,6 @@ struct UARTRegisterConfig
                 ubrrh = &UBRR2H;
                 ubrrl = &UBRR2L;
                 break;
-#endif
-#ifdef UDR3
-#undef UART_NUM
-#define UART_NUM 4
             case 3:
                 udr = &UDR3;
                 ucsra = &UCSR3A;
@@ -130,8 +129,8 @@ struct UARTRegisterConfig
                 ubrrh = &UBRR3H;
                 ubrrl = &UBRR3L;
                 break;
-#endif
         }
+#endif
     }
 
 

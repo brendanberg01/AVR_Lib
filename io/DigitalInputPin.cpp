@@ -2,7 +2,7 @@
 // Created by Passi on 13.02.2019.
 //
 
-#include "include/mcu/io/DigitalInputPin.hpp"
+#include <mcu/io/DigitalInputPin.hpp>
 
 
 DigitalInputPin::DigitalInputPin (volatile uint8_t* pin, uint8_t bit)
