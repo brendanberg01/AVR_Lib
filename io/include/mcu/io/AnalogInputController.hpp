@@ -11,12 +11,12 @@
 
 #include "AnalogInputPin.hpp"
 
-#if defined(__AVR__ATmega1280__) || defined(__AVR_ATmega2560__)
-    #define ANALOG_PIN_NUM 16
-#endif
-
 #if defined(__AVR_ATmega328P__)
     #define ANALOG_PIN_NUM 9
+#endif
+
+#if defined(__AVR__ATmega1280__) || defined(__AVR_ATmega2560__)
+    #define ANALOG_PIN_NUM 16
 #endif
 
 
