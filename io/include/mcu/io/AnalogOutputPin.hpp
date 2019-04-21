@@ -14,8 +14,8 @@ class AnalogOutputPin
 {
 public:
 
-    AnalogOutputPin(volatile uint8_t* port, uint8_t bit, Timer* timer,
-        uint8_t ocr);
+    AnalogOutputPin(volatile uint8_t* port, uint8_t bit,
+                    Timer* timer, uint8_t ocr);
 
     void SetValue (uint8_t value);
 

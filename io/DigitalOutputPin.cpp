@@ -8,7 +8,7 @@
 DigitalOutputPin::DigitalOutputPin (volatile uint8_t* port, uint8_t bit)
 : m_Port(port), m_State(false)
 {
-    m_Mask = static_cast<uint8_t>(1) << bit;
+    m_Mask = 1 << bit;
     m_MaskInv = ~m_Mask;
     *(m_Port - 1) |=  m_Mask;
 }

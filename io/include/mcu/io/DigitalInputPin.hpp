@@ -14,7 +14,7 @@ public:
 
     DigitalInputPin (volatile uint8_t* pin, uint8_t bit);
 
-    bool Get () const;
+    bool GetState () const;
 
 
 private:
@@ -22,8 +22,6 @@ private:
     volatile uint8_t* m_Pin;
 
     uint8_t m_Bit;
-
-    uint8_t m_Mask;
 
 
 };

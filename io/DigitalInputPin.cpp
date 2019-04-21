@@ -8,12 +8,11 @@
 DigitalInputPin::DigitalInputPin (volatile uint8_t* pin, uint8_t bit)
     : m_Pin(pin), m_Bit(bit)
 {
-    m_Mask = static_cast<uint8_t>(1) << bit;
-    *(m_Pin + 1) &= ~m_Mask;
+    *(m_Pin + 1) &= ~(1 << bit);
 }
 
 
-bool DigitalInputPin::Get () const
+bool DigitalInputPin::GetState () const
 {
-    return static_cast<bool>(*m_Pin >> m_Bit & 1);
+    return static_cast<bool>((*m_Pin >> m_Bit) & 1);
 }
