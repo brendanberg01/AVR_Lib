@@ -12,6 +12,8 @@ class DigitalOutputPin
 {
 public:
 
+    DigitalOutputPin ();
+
     DigitalOutputPin (volatile uint8_t* port, uint8_t bit);
 
     void Enable ();

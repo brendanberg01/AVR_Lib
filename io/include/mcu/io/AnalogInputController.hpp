@@ -31,9 +31,9 @@ public:
 
     void RegisterAnalogPin (AnalogInputPin* pin);
 
-    void EnableAnalogController ();
+    void Enable ();
 
-    void DisableAnalogController ();
+    void Disable ();
 
 
 private:

@@ -13,7 +13,9 @@ class AnalogInputPin
 {
 public:
 
-    explicit AnalogInputPin (uint8_t pin, uint8_t bufferSize = 16);
+    AnalogInputPin();
+
+    explicit AnalogInputPin (uint8_t pin, uint8_t bufferSize = 1);
 
     void SelectChannel ();
 

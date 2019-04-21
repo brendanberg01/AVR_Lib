@@ -39,7 +39,7 @@ void AnalogInputController::RegisterAnalogPin (AnalogInputPin* pin)
 }
 
 
-void AnalogInputController::EnableAnalogController ()
+void AnalogInputController::Enable ()
 {
     m_AnalogControllerEnabled = true;
     m_SelectedInputPin = 0;
@@ -47,7 +47,7 @@ void AnalogInputController::EnableAnalogController ()
 }
 
 
-void AnalogInputController::DisableAnalogController ()
+void AnalogInputController::Disable ()
 {
     m_AnalogControllerEnabled = false;
 }

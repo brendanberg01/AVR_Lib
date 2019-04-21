@@ -8,8 +8,13 @@
 #include <mcu/io/AnalogInputPin.hpp>
 
 
+AnalogInputPin::AnalogInputPin ()
+    : m_Pin(0), m_BufferSize(1), m_ValueSum(0), m_ValuesInBuffer(0)
+{ }
+
+
 AnalogInputPin::AnalogInputPin (uint8_t pin, uint8_t bufferSize)
-: m_Pin(pin), m_BufferSize(bufferSize), m_ValueSum(0), m_ValuesInBuffer(0)
+    : m_Pin(pin), m_BufferSize(bufferSize), m_ValueSum(0), m_ValuesInBuffer(0)
 {
     if (m_BufferSize > 16)
     {

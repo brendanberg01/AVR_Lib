@@ -5,6 +5,11 @@
 #include <mcu/io/DigitalOutputPin.hpp>
 
 
+DigitalOutputPin::DigitalOutputPin ()
+    : m_Port(nullptr), m_Mask(0), m_MaskInv(0), m_State(false)
+{ }
+
+
 DigitalOutputPin::DigitalOutputPin (volatile uint8_t* port, uint8_t bit)
 : m_Port(port), m_State(false)
 {
