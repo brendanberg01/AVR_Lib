@@ -11,7 +11,7 @@
 
 
 #if defined(__AVR_ATmega328P__)
-#define ANALOG_PIN_NUM 2
+#define EXT_INT_NUM 2
 extern "C" void INT0_vect(void) __attribute__ ((signal));
 extern "C" void INT1_vect(void) __attribute__ ((signal));
 #endif

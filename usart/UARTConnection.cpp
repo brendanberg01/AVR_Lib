@@ -56,10 +56,27 @@ void UARTConnection::WriteByte (uint8_t data)
 void UARTConnection::WriteString (const char data[])
 {
     auto len = strlen(data);
+    WriteString(data, len);
+}
+
+
+void UARTConnection::WriteString (const char* data, uint8_t len)
+{
     for (int i = 0; i < len; ++i)
     {
         WriteByte(static_cast<uint8_t>(data[i]));
     }
+}
+
+
+void UARTConnection::SendData (UARTDataSource& dataSource)
+{
+    WriteByte(ControlCharacters::soh);
+    WriteByte(dataSource.GetMessageLength());
+    WriteByte(ControlCharacters::stx);
+    WriteString(dataSource.GetMessage(), dataSource.GetMessageLength());
+    WriteByte(ControlCharacters::etx);
+    WriteByte(ControlCharacters::eot);
 }
 
 
@@ -97,12 +114,12 @@ void UARTConnection::TransmitCompleteInterruptServiceRoutine ()
 
 #define RCISR(vect, i) ISR (vect)\
 {\
-    UARTConnection::instancePtr[0]->ReceiveCompleteInterruptServiceRoutine();\
+    UARTConnection::instancePtr[i]->ReceiveCompleteInterruptServiceRoutine();\
 }
 
 #define TCISR(vect, i) ISR (vect)\
 {\
-    UARTConnection::instancePtr[0]->TransmitCompleteInterruptServiceRoutine();\
+    UARTConnection::instancePtr[i]->TransmitCompleteInterruptServiceRoutine();\
 }
 
 #if defined(__AVR_ATmega328P__)

@@ -11,6 +11,8 @@
 
 #include <mcu/util/Buffer.hpp>
 
+#include "ControlCharacters.hpp"
+#include "UARTDataSource.hpp"
 #include "UART.hpp"
 
 
@@ -47,6 +49,10 @@ public:
     void WriteByte (uint8_t data);
 
     void WriteString (const char data[]);
+
+    void WriteString (const char data[], uint8_t len);
+
+    void SendData (UARTDataSource& dataSource);
 
 
 private:

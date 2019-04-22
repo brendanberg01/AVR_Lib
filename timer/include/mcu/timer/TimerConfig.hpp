@@ -91,7 +91,7 @@ struct TimerRegisterConfig
                 tccrb = &TCCR1B;
                 ocra = &OCR1AL;
                 ocrb = &OCR1BL;
-                ocrc = &OCR1CL;
+                ocrc = nullptr;
                 break;
             case 2:
                 twoBytes = false;
@@ -171,8 +171,15 @@ struct TimerCompareMatchConfig
 
     uint8_t outputCompareRegister;
 
+#if defined(__AVR_ATmega328P__)
+    static constexpr uint8_t outputCompareRegisterBits[2] =
+        {COM0A0, COM0B0};
+#endif
+
+#if defined(__AVR__ATmega1280__) || defined(__AVR_ATmega2560__)
     static constexpr uint8_t outputCompareRegisterBits[3] =
         {COM0A0, COM0B0, COM1C0};
+#endif
 
     // compare match
 
@@ -187,6 +194,20 @@ struct TimerCompareMatchConfig
     TimerCompareMatchConfig (uint8_t ocr, uint8_t mode)
         : compareMatchMode(mode)
     {
+#if defined(__AVR_ATmega328P__)
+        switch (ocr)
+        {
+            default:
+            case 0:
+                outputCompareRegister = COM0A0;
+                break;
+            case 1:
+                outputCompareRegister = COM0B0;
+                break;
+        }
+#endif
+
+#if defined(__AVR__ATmega1280__) || defined(__AVR_ATmega2560__)
         switch (ocr)
         {
             default:
@@ -200,6 +221,7 @@ struct TimerCompareMatchConfig
                 outputCompareRegister = COM1C0;
                 break;
         }
+#endif
     }
 
 
