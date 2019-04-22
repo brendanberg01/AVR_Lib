@@ -22,23 +22,35 @@ public:
 
     void RequestData ();
 
-    bool IsRequestPending ();
+    bool ResponseReceived ();
 
-    bool HasResponseArrived ();
+    const char* GetMessage();
+
+    uint8_t GetMessageLength();
 
 
 private:
 
+    enum class RequestState
+    {
+        null,
+        pending,
+        startOfHeader,
+        headerReceived,
+        startOfText,
+        textReceived,
+        endOfText
+    };
+
     DigitalOutputPin m_InterruptPin;
-
-    bool m_RequestPending;
-
-    bool m_ResponseArrived;
 
     char m_Message[64] = {'\0'};
 
     uint8_t m_MessageLength;
 
+    uint8_t m_ReceivedMessageLength;
+
+    RequestState m_RequestState;
 
 };
 

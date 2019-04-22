@@ -28,19 +28,19 @@ TimerModeConfig TimerFastPWM::GetModeConfig (uint8_t timerID,
     switch (prescaler)
     {
         default:
-        case 1:
+        case 0x0001:
             modeCfg.clockSource = TimerModeConfig::clockSourcePs1;
             break;
-        case 8:
+        case 0x0008:
             modeCfg.clockSource = TimerModeConfig::clockSourcePs8;
             break;
-        case 64:
+        case 0x0040:
             modeCfg.clockSource = TimerModeConfig::clockSourcePs64;
             break;
-        case 256:
+        case 0x0100:
             modeCfg.clockSource = TimerModeConfig::clockSourcePs256;
             break;
-        case 1024:
+        case 0x0400:
             modeCfg.clockSource = TimerModeConfig::clockSourcePs1024;
             break;
     }
