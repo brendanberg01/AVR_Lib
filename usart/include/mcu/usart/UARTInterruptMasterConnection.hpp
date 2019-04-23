@@ -16,41 +16,22 @@ class UARTInterruptMasterConnection : public UARTConnection
 public:
 
     UARTInterruptMasterConnection (uint8_t uartID, uint32_t baud,
+                                   UARTDataDestination& destination,
                                    volatile uint8_t* port, uint8_t bit);
-
-    void Update ();
 
     void RequestData ();
 
     bool ResponseReceived ();
 
-    const char* GetMessage();
+    void DispatchMessage () override;
 
-    uint8_t GetMessageLength();
+    void DiscardResponse ();
 
 
 private:
 
-    enum class RequestState
-    {
-        null,
-        pending,
-        startOfHeader,
-        headerReceived,
-        startOfText,
-        textReceived,
-        endOfText
-    };
-
     DigitalOutputPin m_InterruptPin;
 
-    char m_Message[64] = {'\0'};
-
-    uint8_t m_MessageLength;
-
-    uint8_t m_ReceivedMessageLength;
-
-    RequestState m_RequestState;
 
 };
 

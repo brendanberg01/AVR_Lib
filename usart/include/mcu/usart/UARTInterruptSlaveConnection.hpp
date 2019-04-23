@@ -18,6 +18,7 @@ class UARTInterruptSlaveConnection : public UARTConnection,
 public:
 
     UARTInterruptSlaveConnection (uint8_t uartId, uint32_t baud,
+                                  UARTDataDestination& destination,
                                   uint8_t extIntrptId,
                                   UARTDataSource& dataSource);
 

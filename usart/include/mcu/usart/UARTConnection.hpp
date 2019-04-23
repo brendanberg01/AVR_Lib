@@ -12,8 +12,9 @@
 #include <mcu/util/Buffer.hpp>
 
 #include "ControlCharacters.hpp"
-#include "UARTDataSource.hpp"
 #include "UART.hpp"
+#include "UARTDataSource.hpp"
+#include "UARTDataDestination.hpp"
 
 
 #if defined(__AVR_ATmega328P__)
@@ -40,7 +41,8 @@ class UARTConnection
 
 public:
 
-    UARTConnection (uint8_t uartID, uint32_t baud);
+    UARTConnection (uint8_t uartID, uint32_t baud,
+                    UARTDataDestination& destination);
 
     bool DataAvailable ();
 
@@ -52,7 +54,39 @@ public:
 
     void WriteString (const char data[], uint8_t len);
 
+
     void SendData (UARTDataSource& dataSource);
+
+    void ReceiveData ();
+
+    bool MessageReceived ();
+
+    uint8_t GetMessageLength();
+
+    const char* GetMessage();
+
+    virtual void DispatchMessage();
+
+    void DiscardMessage();
+
+
+
+protected:
+
+    enum class RequestState
+    {
+        null,
+        pending,
+        startOfHeader,
+        headerReceived,
+        startOfText,
+        textReceived,
+        endOfText
+    };
+
+    RequestState m_RequestState;
+
+    UARTDataDestination& m_DataDestination;
 
 
 private:
@@ -64,6 +98,12 @@ private:
     Buffer<128> m_ReceiveBuffer;
 
     bool m_OngoingTransmission;
+
+    char m_Message[64] = {'\0'};
+
+    uint8_t m_MessageLength;
+
+    uint8_t m_ReceivedMessageLength;
 
     void StartTransmission ();
 

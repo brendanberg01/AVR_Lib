@@ -6,9 +6,9 @@
 
 
 UARTInterruptSlaveConnection::UARTInterruptSlaveConnection (
-    uint8_t uartId, uint32_t baud, uint8_t extIntrptId,
-    UARTDataSource& dataSource)
-    : UARTConnection(uartId, baud),
+    uint8_t uartId, uint32_t baud, UARTDataDestination& destination,
+    uint8_t extIntrptId, UARTDataSource& dataSource)
+    : UARTConnection(uartId, baud, destination),
     ExternalInterruptHandler(extIntrptId,
                              ExternalInterruptConfig::senseControlModeRising,
                              this),

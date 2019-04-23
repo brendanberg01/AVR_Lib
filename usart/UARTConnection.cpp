@@ -8,8 +8,11 @@
 UARTConnection* UARTConnection::instancePtr[UART_NUM] = {nullptr};
 
 
-UARTConnection::UARTConnection (uint8_t uartID, uint32_t baud)
-    : m_OngoingTransmission(false)
+UARTConnection::UARTConnection (uint8_t uartID, uint32_t baud,
+                                UARTDataDestination& destination)
+    : m_OngoingTransmission(false), m_RequestState(RequestState::pending),
+    m_MessageLength(0), m_ReceivedMessageLength(0),
+    m_DataDestination(destination)
 {
     UARTProtocolConfig uartPrtclCfg = {};
     uartPrtclCfg.cpuFreq       = 16000000;
@@ -77,6 +80,102 @@ void UARTConnection::SendData (UARTDataSource& dataSource)
     WriteString(dataSource.GetMessage(), dataSource.GetMessageLength());
     WriteByte(ControlCharacters::etx);
     WriteByte(ControlCharacters::eot);
+}
+
+
+void UARTConnection::ReceiveData ()
+{
+    if (m_RequestState == RequestState::null)
+    {
+        return;
+    }
+
+    while (DataAvailable())
+    {
+        char byte = ReadByte();
+
+        switch (m_RequestState)
+        {
+            case RequestState::null:
+            case RequestState::pending:
+                if (byte == ControlCharacters::soh)
+                {
+                    m_RequestState = RequestState::startOfHeader;
+                }
+                break;
+            case RequestState::startOfHeader:
+                m_MessageLength = byte;
+                m_RequestState = RequestState::headerReceived;
+                break;
+            case RequestState::headerReceived:
+                if (byte == ControlCharacters::stx)
+                {
+                    m_RequestState = RequestState::startOfText;
+                }
+                break;
+            case RequestState::startOfText:
+                m_Message[m_ReceivedMessageLength] = byte;
+                ++m_ReceivedMessageLength;
+                m_Message[m_ReceivedMessageLength] = '\0';
+
+                if (m_ReceivedMessageLength == m_MessageLength)
+                {
+                    m_RequestState = RequestState::textReceived;
+                }
+                break;
+            case RequestState::textReceived:
+                if (byte == ControlCharacters::etx)
+                {
+                    m_RequestState = RequestState::endOfText;
+                }
+                break;
+            case RequestState::endOfText:
+                if (byte == ControlCharacters::eot)
+                {
+                    m_RequestState = RequestState::null;
+                    DispatchMessage();
+                }
+                break;
+
+        }
+    }
+}
+
+
+bool UARTConnection::MessageReceived ()
+{
+    return ((m_RequestState == RequestState::null) && (m_MessageLength != 0));
+}
+
+
+uint8_t UARTConnection::GetMessageLength ()
+{
+    return m_MessageLength;
+}
+
+
+const char* UARTConnection::GetMessage ()
+{
+    return m_Message;
+}
+
+
+void UARTConnection::DispatchMessage ()
+{
+    m_DataDestination.DispatchMessage(GetMessage(), GetMessageLength());
+    DiscardMessage();
+}
+
+
+void UARTConnection::DiscardMessage ()
+{
+    if (MessageReceived())
+    {
+        m_RequestState = RequestState::pending;
+        m_Message[0] = '\0';
+        m_MessageLength = 0;
+        m_ReceivedMessageLength = 0;
+    }
 }
 
 
