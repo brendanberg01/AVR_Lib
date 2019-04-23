@@ -12,6 +12,8 @@ class DigitalInputPin
 {
 public:
 
+    DigitalInputPin();
+
     DigitalInputPin (volatile uint8_t* pin, uint8_t bit);
 
     bool GetState () const;

@@ -15,7 +15,7 @@ public:
 
     AnalogInputPin();
 
-    explicit AnalogInputPin (uint8_t pin, uint8_t bufferSize = 1);
+    explicit AnalogInputPin (uint8_t channel, uint8_t bufferSize = 1);
 
     void SelectChannel ();
 
@@ -26,7 +26,7 @@ public:
 
 private:
 
-    uint8_t m_Pin;
+    uint8_t m_Channel;
 
     uint8_t m_BufferSize;
 

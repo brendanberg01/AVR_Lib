@@ -5,6 +5,11 @@
 #include <mcu/io/DigitalInputPin.hpp>
 
 
+DigitalInputPin::DigitalInputPin ()
+    : m_Pin(nullptr), m_Bit(0)
+{ }
+
+
 DigitalInputPin::DigitalInputPin (volatile uint8_t* pin, uint8_t bit)
     : m_Pin(pin), m_Bit(bit)
 {
