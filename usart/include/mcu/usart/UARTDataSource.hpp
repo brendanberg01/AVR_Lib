@@ -19,12 +19,9 @@ public:
 
 protected:
 
-    virtual void UpdateMessage () = 0;
-
     explicit UARTDataSource (uint8_t messageLength);
 
-
-protected:
+    virtual void UpdateMessage () = 0;
 
     char m_Message[64] = {'\0'};
 
