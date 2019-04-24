@@ -6,8 +6,10 @@
 
 
 TimerFastPWM::TimerFastPWM (uint8_t timerID, uint16_t prescaler)
-    : Timer::Timer(GetModeConfig(timerID, prescaler), timerID)
-{ }
+    : Timer(GetModeConfig(timerID, prescaler), timerID)
+{
+    instancePtr[timerID] = this;
+}
 
 
 TimerModeConfig TimerFastPWM::GetModeConfig (uint8_t timerID,
@@ -34,9 +36,19 @@ TimerModeConfig TimerFastPWM::GetModeConfig (uint8_t timerID,
         case 0x0008:
             modeCfg.clockSource = TimerModeConfig::clockSourcePs8;
             break;
+#if defined(__AVR_ATmega328P__)
+        case 0x0020:
+            modeCfg.clockSource = TimerModeConfig::clockSourcePs32;
+            break;
+#endif
         case 0x0040:
             modeCfg.clockSource = TimerModeConfig::clockSourcePs64;
             break;
+#if defined(__AVR_ATmega328P__)
+        case 0x0080:
+            modeCfg.clockSource = TimerModeConfig::clockSourcePs128;
+            break;
+#endif
         case 0x0100:
             modeCfg.clockSource = TimerModeConfig::clockSourcePs256;
             break;

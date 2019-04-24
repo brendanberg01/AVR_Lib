@@ -38,6 +38,18 @@ struct TimerModeConfig
 
     uint8_t clockSource : 3;
 
+#if defined(__AVR_ATmega328P__)
+    static constexpr uint8_t clockSourceNon        = 0x0;
+    static constexpr uint8_t clockSourcePs1        = 0x1;
+    static constexpr uint8_t clockSourcePs8        = 0x2;
+    static constexpr uint8_t clockSourcePs32       = 0x3;
+    static constexpr uint8_t clockSourcePs64       = 0x4;
+    static constexpr uint8_t clockSourcePs128      = 0x5;
+    static constexpr uint8_t clockSourcePs256      = 0x6;
+    static constexpr uint8_t clockSourcePs1024     = 0x7;
+#endif
+
+#if defined(__AVR__ATmega1280__) || defined(__AVR_ATmega2560__)
     static constexpr uint8_t clockSourceNon        = 0x0;
     static constexpr uint8_t clockSourcePs1        = 0x1;
     static constexpr uint8_t clockSourcePs8        = 0x2;
@@ -46,6 +58,7 @@ struct TimerModeConfig
     static constexpr uint8_t clockSourcePs1024     = 0x5;
     static constexpr uint8_t clockSourceExtFalling = 0x6;
     static constexpr uint8_t clockSourceExtRising  = 0x7;
+#endif
 
 
 };
@@ -70,6 +83,8 @@ struct TimerRegisterConfig
 
     volatile uint8_t* ocrc;
 
+    volatile uint8_t* timsk;
+
 
     explicit TimerRegisterConfig (uint8_t timerID)
     {
@@ -84,6 +99,7 @@ struct TimerRegisterConfig
                 ocra = &OCR0A;
                 ocrb = &OCR0B;
                 ocrc = nullptr;
+                timsk = &TIMSK0;
                 break;
             case 1:
                 twoBytes = true;
@@ -92,6 +108,7 @@ struct TimerRegisterConfig
                 ocra = &OCR1AL;
                 ocrb = &OCR1BL;
                 ocrc = nullptr;
+                timsk = &TIMSK1;
                 break;
             case 2:
                 twoBytes = false;
@@ -100,6 +117,7 @@ struct TimerRegisterConfig
                 ocra = &OCR2A;
                 ocrb = &OCR2B;
                 ocrc = nullptr;
+                timsk = &TIMSK2;
                 break;
         }
 #endif
@@ -115,6 +133,7 @@ struct TimerRegisterConfig
                 ocra = &OCR0A;
                 ocrb = &OCR0B;
                 ocrc = nullptr;
+                timsk = &TIMSK0;
                 break;
             case 1:
                 twoBytes = true;
@@ -123,6 +142,7 @@ struct TimerRegisterConfig
                 ocra = &OCR1AL;
                 ocrb = &OCR1BL;
                 ocrc = &OCR1CL;
+                timsk = &TIMSK1;
                 break;
             case 2:
                 twoBytes = false;
@@ -131,6 +151,7 @@ struct TimerRegisterConfig
                 ocra = &OCR2A;
                 ocrb = &OCR2B;
                 ocrc = nullptr;
+                timsk = &TIMSK2;
                 break;
             case 3:
                 twoBytes = true;
@@ -139,6 +160,7 @@ struct TimerRegisterConfig
                 ocra = &OCR3AL;
                 ocrb = &OCR3BL;
                 ocrc = &OCR3CL;
+                timsk = &TIMSK3;
                 break;
             case 4:
                 twoBytes = true;
@@ -147,6 +169,7 @@ struct TimerRegisterConfig
                 ocra = &OCR4AL;
                 ocrb = &OCR4BL;
                 ocrc = &OCR4CL;
+                timsk = &TIMSK4;
                 break;
             case 5:
                 twoBytes = true;
@@ -155,6 +178,7 @@ struct TimerRegisterConfig
                 ocra = &OCR5AL;
                 ocrb = &OCR5BL;
                 ocrc = &OCR5CL;
+                timsk = &TIMSK5;
                 break;
         }
 #endif
