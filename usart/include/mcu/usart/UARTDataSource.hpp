@@ -12,7 +12,7 @@ class UARTDataSource
 {
 public:
 
-    const char* GetMessage ();
+    const unsigned char* GetMessage ();
 
     uint8_t GetMessageLength ();
 
@@ -23,7 +23,7 @@ protected:
 
     virtual void UpdateMessage () = 0;
 
-    char m_Message[64] = {'\0'};
+    unsigned char m_Message[64] = {'\0'};
 
     uint8_t m_MessageLength;
 

@@ -56,14 +56,14 @@ void UARTConnection::WriteByte (uint8_t data)
 }
 
 
-void UARTConnection::WriteString (const char data[])
+void UARTConnection::WriteString (const unsigned char data[])
 {
-    auto len = strlen(data);
+    auto len = strlen(reinterpret_cast<const char*>(data));
     WriteString(data, len);
 }
 
 
-void UARTConnection::WriteString (const char* data, uint8_t len)
+void UARTConnection::WriteString (const unsigned char data[], uint8_t len)
 {
     for (int i = 0; i < len; ++i)
     {
@@ -92,7 +92,7 @@ void UARTConnection::ReceiveData ()
 
     while (DataAvailable())
     {
-        char byte = ReadByte();
+        uint8_t byte = ReadByte();
 
         switch (m_RequestState)
         {
@@ -154,7 +154,7 @@ uint8_t UARTConnection::GetMessageLength ()
 }
 
 
-const char* UARTConnection::GetMessage ()
+const unsigned char* UARTConnection::GetMessage ()
 {
     return m_Message;
 }

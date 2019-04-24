@@ -50,9 +50,9 @@ public:
 
     void WriteByte (uint8_t data);
 
-    void WriteString (const char data[]);
+    void WriteString (const unsigned char data[]);
 
-    void WriteString (const char data[], uint8_t len);
+    void WriteString (const unsigned char data[], uint8_t len);
 
 
     void SendData (UARTDataSource& dataSource);
@@ -63,7 +63,7 @@ public:
 
     uint8_t GetMessageLength();
 
-    const char* GetMessage();
+    const unsigned char* GetMessage();
 
     virtual void DispatchMessage();
 
@@ -99,7 +99,7 @@ private:
 
     bool m_OngoingTransmission;
 
-    char m_Message[64] = {'\0'};
+    unsigned char m_Message[64] = {'\0'};
 
     uint8_t m_MessageLength;
 

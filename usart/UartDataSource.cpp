@@ -12,7 +12,7 @@ UARTDataSource::UARTDataSource (uint8_t messageLength)
 { }
 
 
-const char* UARTDataSource::GetMessage ()
+const unsigned char* UARTDataSource::GetMessage ()
 {
     UpdateMessage();
     m_Message[m_MessageLength] = '\0';

@@ -12,7 +12,8 @@ class UARTDataDestination
 {
 public:
 
-    virtual void DispatchMessage (const char* message, uint8_t len) = 0;
+    virtual void DispatchMessage (const unsigned char* message,
+                                  uint8_t len) = 0;
 
 
 };
